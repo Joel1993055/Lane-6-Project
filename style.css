@@ -33,26 +33,9 @@ button:hover {
     background-color: darkred;
 }
 
-/* ✅ Centrar la tabla */
-.table-wrapper {
-    width: 60%;
-    max-width: 600px;
-    margin: 20px auto;
-    text-align: center;
-}
-
-#resultsTable {
+canvas {
     width: 100%;
-    border-collapse: collapse;
-}
-
-#resultsTable th, #resultsTable td {
-    padding: 10px;
-    border: 1px solid black;
-    text-align: center;
-}
-
-#resultsTable th {
-    background-color: red;
-    color: white;
+    max-width: 600px;
+    height: auto;
+    background: white;
 }
