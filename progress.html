@@ -3,109 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swimmer Progress</title>
+    <title>Progress Tracker</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        input, button {
-            padding: 10px;
-            margin: 5px;
-            font-size: 16px;
-        }
-        canvas {
-            max-width: 100%;
-            margin-top: 20px;
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
-    <h1>Swimmer Progress Tracker</h1>
+    <h1>Progress Tracker</h1>
 
     <div class="container">
-        <label for="swimmerName">Swimmer Name:</label>
-        <input type="text" id="swimmerName" placeholder="Enter swimmer name">
+        <label for="eventSelect">Select Event:</label>
+        <select id="eventSelect">
+            <option value="50m Free">50m Freestyle</option>
+            <option value="100m Free">100m Freestyle</option>
+            <option value="200m Free">200m Freestyle</option>
+            <option value="400m Free">400m Freestyle</option>
+            <option value="800m Free">800m Freestyle</option>
+            <option value="1500m Free">1500m Freestyle</option>
+        </select>
 
-        <label for="testDate">Test Date:</label>
-        <input type="date" id="testDate">
+        <label for="poolSelect">Pool Type:</label>
+        <select id="poolSelect">
+            <option value="SCM">25m Pool (SCM)</option>
+            <option value="LCM">50m Pool (LCM)</option>
+        </select>
 
-        <label for="distance">Distance Swum (meters):</label>
-        <input type="number" id="distance" placeholder="Enter distance">
+        <label for="genderSelect">Gender:</label>
+        <select id="genderSelect">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
 
-        <label for="pace">Avg. Pace per 100m (mm:ss.ms):</label>
-        <input type="text" id="pace" placeholder="mm:ss.ms">
+        <div id="timesInput">
+            <label>Enter up to 4 times with dates:</label>
+            <div class="time-entry">
+                <input type="date" id="date1">
+                <input type="text" id="time1" placeholder="mm:ss.ms">
+            </div>
+            <div class="time-entry">
+                <input type="date" id="date2">
+                <input type="text" id="time2" placeholder="mm:ss.ms">
+            </div>
+            <div class="time-entry">
+                <input type="date" id="date3">
+                <input type="text" id="time3" placeholder="mm:ss.ms">
+            </div>
+            <div class="time-entry">
+                <input type="date" id="date4">
+                <input type="text" id="time4" placeholder="mm:ss.ms">
+            </div>
+        </div>
 
-        <button onclick="addData()">Add Test Result</button>
+        <button id="calculateProgress">Show Progress</button>
+        <button id="downloadPDF" class="download-btn">📥 Download PDF</button>
 
-        <h2>Progress Over Time</h2>
+        <h2>Progress Chart</h2>
         <canvas id="progressChart"></canvas>
+
+        <h3>Improvement Percentages:</h3>
+        <p id="improvementText"></p>
     </div>
 
-    <script>
-        let testData = [];
-
-        function addData() {
-            const name = document.getElementById("swimmerName").value;
-            const date = document.getElementById("testDate").value;
-            const distance = parseInt(document.getElementById("distance").value);
-            const pace = document.getElementById("pace").value;
-
-            if (!name || !date || isNaN(distance) || !pace) {
-                alert("Please fill all fields correctly.");
-                return;
-            }
-
-            testData.push({ name, date, distance, pace });
-
-            updateChart();
-        }
-
-        function updateChart() {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-
-            const labels = testData.map(test => test.date);
-            const distances = testData.map(test => test.distance);
-
-            if (window.progressChart) {
-                window.progressChart.destroy();
-            }
-
-            window.progressChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Distance Swum (m)',
-                        data: distances,
-                        borderColor: 'red',
-                        borderWidth: 2,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
-                    }
-                }
-            });
-        }
-    </script>
+    <script src="progress.js"></script>
 
 </body>
 </html>
