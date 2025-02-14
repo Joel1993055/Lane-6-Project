@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FINA Points Calculator</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
     <h1>FINA Points Calculator</h1>
 
-    <div class="container">
+    <div class="container" id="pdf-content">
         <label for="pool">Select Pool Type:</label>
         <select id="pool">
             <option value="25m">Short Course (25m)</option>
@@ -48,33 +50,18 @@
         <input type="text" id="time" placeholder="e.g., 1:52.34">
 
         <button onclick="calculateFINA()">Calculate Points</button>
+        <button onclick="downloadPDF()">Download PDF</button>
 
         <p class="result" id="result"></p>
     </div>
 
     <script>
-        // FINA Base Times Data
-        const finaBaseTimes = {
-            "50free":   { men: { "25m": 20.16, "50m": 20.91 }, women: { "25m": 22.93, "50m": 23.61 } },
-            "100free":  { men: { "25m": 44.84, "50m": 46.40 }, women: { "25m": 50.25, "50m": 51.71 } },
-            "200free":  { men: { "25m": 99.37, "50m": 102.00 }, women: { "25m": 110.31, "50m": 112.23 } },
-            "400free":  { men: { "25m": 212.25, "50m": 220.07 }, women: { "25m": 231.30, "50m": 235.38 } },
-            "800free":  { men: { "25m": 440.46, "50m": 452.12 }, women: { "25m": 477.42, "50m": 484.79 } },
-            "1500free": { men: { "25m": 846.88, "50m": 870.67 }, women: { "25m": 908.24, "50m": 920.48 } },
-            "50back":   { men: { "25m": 22.11, "50m": 23.55 }, women: { "25m": 25.25, "50m": 26.86 } },
-            "100back":  { men: { "25m": 48.33, "50m": 51.60 }, women: { "25m": 54.89, "50m": 57.13 } },
-            "200back":  { men: { "25m": 105.63, "50m": 111.92 }, women: { "25m": 118.94, "50m": 123.14 } },
-            "200im":    { men: { "25m": 109.63, "50m": 114.00 }, women: { "25m": 121.86, "50m": 126.12 } },
-            "400im":    { men: { "25m": 234.81, "50m": 242.50 }, women: { "25m": 258.94, "50m": 264.38 } }
-        };
-
         function calculateFINA() {
             let pool = document.getElementById("pool").value;
             let event = document.getElementById("event").value;
             let gender = document.getElementById("gender").value;
             let timeInput = document.getElementById("time").value.trim();
 
-            // Check time format (mm:ss.ms)
             if (!timeInput.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
                 alert("Invalid format. Use mm:ss.ms (e.g., 1:52.34)");
                 return;
@@ -85,10 +72,22 @@
             let seconds = parseFloat(parts[1]);
 
             let enteredTime = minutes * 60 + seconds;
-            let baseTime = finaBaseTimes[event][gender][pool];
+            let baseTime = {
+                "50free": { men: { "25m": 20.16, "50m": 20.91 }, women: { "25m": 22.93, "50m": 23.61 } }
+            }[event][gender][pool];
 
             let finaPoints = 1000 * Math.pow(baseTime / enteredTime, 3);
             document.getElementById("result").innerText = `FINA Points: ${Math.round(finaPoints)}`;
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            html2canvas(document.querySelector("#pdf-content")).then(canvas => {
+                let imgData = canvas.toDataURL("image/png");
+                let pdf = new jsPDF();
+                pdf.addImage(imgData, "PNG", 10, 10, 180, 120);
+                pdf.save("FINA_Points_Calculator.pdf");
+            });
         }
     </script>
 
