@@ -3,120 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Paces</title>
+    <title>FINA Points Calculator</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
-    <h1>Training Paces Calculator</h1>
+    <h1>FINA Points Calculator</h1>
 
-    <div class="container">
-        <label for="methodSelect">Select Method:</label>
-        <select id="methodSelect">
-            <option value="1500m">1500m Freestyle Time</option>
-            <option value="test20">20-Minute Test</option>
+    <div class="container" id="pdf-content">
+        <label for="pool">Select Pool Type:</label>
+        <select id="pool">
+            <option value="25m">Short Course (25m)</option>
+            <option value="50m">Long Course (50m)</option>
         </select>
 
-        <label for="timeInput">Enter Time (mm:ss.ms) or Distance (meters):</label>
-        <input type="text" id="timeInput" placeholder="e.g., 18:14.24 or meters">
+        <label for="event">Select an Event:</label>
+        <select id="event">
+            <option value="50free">50m Freestyle</option>
+            <option value="100free">100m Freestyle</option>
+            <option value="200free">200m Freestyle</option>
+            <option value="400free">400m Freestyle</option>
+            <option value="800free">800m Freestyle</option>
+            <option value="1500free">1500m Freestyle</option>
+            <option value="50back">50m Backstroke</option>
+            <option value="100back">100m Backstroke</option>
+            <option value="200back">200m Backstroke</option>
+            <option value="50breast">50m Breaststroke</option>
+            <option value="100breast">100m Breaststroke</option>
+            <option value="200breast">200m Breaststroke</option>
+            <option value="50fly">50m Butterfly</option>
+            <option value="100fly">100m Butterfly</option>
+            <option value="200fly">200m Butterfly</option>
+            <option value="200im">200m Individual Medley</option>
+            <option value="400im">400m Individual Medley</option>
+        </select>
 
-        <button onclick="calculatePaces()">Calculate Paces</button>
+        <label for="gender">Select Gender:</label>
+        <select id="gender">
+            <option value="men">Male</option>
+            <option value="women">Female</option>
+        </select>
+
+        <label for="time">Enter Your Time (mm:ss.ms):</label>
+        <input type="text" id="time" placeholder="e.g., 1:52.34">
+
+        <button onclick="calculateFINA()">Calculate Points</button>
         <button onclick="downloadPDF()">Download PDF</button>
 
-        <h2>Training Paces</h2>
-        <table id="resultsTable">
-            <thead>
-                <tr>
-                    <th>Zone</th>
-                    <th>Pace per 100m</th>
-                </tr>
-            </thead>
-            <tbody id="resultsBody"></tbody>
-        </table>
+        <p class="result" id="result"></p>
     </div>
 
     <script>
-        function calculatePaces() {
-            let method = document.getElementById("methodSelect").value;
-            let timeInput = document.getElementById("timeInput").value.trim();
-            let pace100m;
+        function calculateFINA() {
+            let pool = document.getElementById("pool").value;
+            let event = document.getElementById("event").value;
+            let gender = document.getElementById("gender").value;
+            let timeInput = document.getElementById("time").value.trim();
 
-            if (!timeInput) {
-                alert("Enter a valid time or distance");
+            if (!timeInput.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
+                alert("Invalid format. Use mm:ss.ms (e.g., 1:52.34)");
                 return;
             }
 
-            if (method === "1500m") {
-                let parts = timeInput.split(":");
-                let minutes = parseInt(parts[0]);
-                let seconds = parseFloat(parts[1]);
-                let totalSeconds = (minutes * 60) + seconds;
-                pace100m = totalSeconds / 15;
-            } else {
-                let distance = parseFloat(timeInput);
-                pace100m = 1200 / distance;
-            }
+            let parts = timeInput.split(":");
+            let minutes = parseInt(parts[0]);
+            let seconds = parseFloat(parts[1]);
 
-            let paceData = {
-                "AE1 - Aerobic Easy": pace100m * 1.2,
-                "AE2 - Aerobic Moderate": pace100m * 1.1,
-                "EN1 - Threshold 1": pace100m,
-                "EN2 - Threshold 2": pace100m * 0.95,
-                "EN3 - Threshold 3": pace100m * 0.90,
-                "VO2 Max - Maximal Effort": pace100m * 0.85
-            };
+            let enteredTime = minutes * 60 + seconds;
+            let baseTime = {
+                "50free": { men: { "25m": 20.16, "50m": 20.91 }, women: { "25m": 22.93, "50m": 23.61 } }
+            }[event][gender][pool];
 
-            let resultsBody = document.getElementById("resultsBody");
-            resultsBody.innerHTML = "";
-            for (let zone in paceData) {
-                let row = `<tr><td>${zone}</td><td>${formatTime(paceData[zone])}</td></tr>`;
-                resultsBody.innerHTML += row;
-            }
-        }
-
-        function formatTime(timeInSeconds) {
-            let minutes = Math.floor(timeInSeconds / 60);
-            let seconds = (timeInSeconds % 60).toFixed(2);
-            return `${minutes}:${seconds.padStart(5, "0")}`;
+            let finaPoints = 1000 * Math.pow(baseTime / enteredTime, 3);
+            document.getElementById("result").innerText = `FINA Points: ${Math.round(finaPoints)}`;
         }
 
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
-            let doc = new jsPDF();
-
-            let method = document.getElementById("methodSelect").value;
-            let timeInput = document.getElementById("timeInput").value.trim();
-            let resultsTable = document.getElementById("resultsTable");
-
-            if (!timeInput || resultsTable.rows.length <= 1) {
-                alert("Please calculate paces before downloading the PDF.");
-                return;
-            }
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.text("Training Paces Report", 15, 15);
-
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(12);
-            doc.text(`Method: ${method}`, 15, 30);
-            doc.text(`Input Time/Distance: ${timeInput}`, 15, 40);
-
-            let y = 50;
-            doc.setFont("helvetica", "bold");
-            doc.text("Training Zones & Paces", 15, y);
-            y += 10;
-
-            doc.setFont("helvetica", "normal");
-            for (let i = 1; i < resultsTable.rows.length; i++) {
-                let zone = resultsTable.rows[i].cells[0].innerText;
-                let pace = resultsTable.rows[i].cells[1].innerText;
-                doc.text(`${zone}: ${pace} per 100m`, 15, y);
-                y += 10;
-            }
-
-            doc.save("Training_Paces.pdf");
+            html2canvas(document.querySelector("#pdf-content")).then(canvas => {
+                let imgData = canvas.toDataURL("image/png");
+                let pdf = new jsPDF();
+                pdf.addImage(imgData, "PNG", 10, 10, 180, 120);
+                pdf.save("FINA_Points_Calculator.pdf");
+            });
         }
     </script>
 
