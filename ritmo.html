@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritmos de Entrenamiento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <img src="assets/logo.png" alt="Lane6 Logo" class="logo">
+        <h1>Beregn træningsrytmer</h1>
+    </header>
+
+    <div class="container">
+        <label for="time1500">Indtast tid på 1500m (mm:ss.ms):</label>
+        <input type="text" id="time1500" placeholder="18:14.24">
+        <button onclick="calculatePaces()">Beregn rytmer</button>
+
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Zone</th>
+                    <th>Beskrivelse</th>
+                    <th>Pace per 100m</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Z1</td><td>Let svømning (Opvarmning)</td><td id="z1"></td></tr>
+                <tr><td>Z2</td><td>Aerob Base</td><td id="z2"></td></tr>
+                <tr><td>Z3</td><td>Threshold (FTP)</td><td id="z3"></td></tr>
+                <tr><td>Z4</td><td>VO2max</td><td id="z4"></td></tr>
+                <tr><td>Z5</td><td>Sprint</td><td id="z5"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
