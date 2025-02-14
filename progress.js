@@ -1,115 +1,79 @@
-document.getElementById("calculateProgress").addEventListener("click", function () {
-    let times = [];
-    let dates = [];
-    
-    for (let i = 1; i <= 4; i++) {
-        let timeInput = document.getElementById(`time${i}`).value.trim();
-        let dateInput = document.getElementById(`date${i}`).value.trim();
-        
-        if (timeInput !== "" && dateInput !== "") {
-            times.push(convertTimeToSeconds(timeInput));
-            dates.push(dateInput);
-        }
-    }
+document.addEventListener("DOMContentLoaded", function () {
+    const eventSelect = document.getElementById("eventSelect");
+    const genderSelect = document.getElementById("genderSelect");
+    const poolSelect = document.getElementById("poolSelect");
+    const dateInput = document.getElementById("date");
+    const timeInput = document.getElementById("time");
+    const addResultButton = document.getElementById("addResult");
 
-    if (times.length < 2) {
-        alert("Please enter at least two times with dates.");
-        return;
-    }
+    let results = []; // Array per guardar els resultats
 
-    let improvements = calculateImprovements(times);
-    
-    updateChart(dates, times);
-    displayImprovements(improvements);
-});
-
-function convertTimeToSeconds(time) {
-    let parts = time.split(":");
-    if (parts.length === 2) {
-        let minutes = parseFloat(parts[0]);
-        let seconds = parseFloat(parts[1]);
-        return minutes * 60 + seconds;
-    } else {
-        return parseFloat(time);
-    }
-}
-
-function calculateImprovements(times) {
-    let improvements = [];
-    for (let i = 1; i < times.length; i++) {
-        let diff = times[i - 1] - times[i];
-        let percent = ((diff / times[i - 1]) * 100).toFixed(2);
-        improvements.push(`From Test ${i} to ${i + 1}: ${percent}%`);
-    }
-    return improvements;
-}
-
-function updateChart(labels, times) {
     let ctx = document.getElementById("progressChart").getContext("2d");
-    if (window.progressChart) {
-        window.progressChart.destroy();
-    }
-
-    window.progressChart = new Chart(ctx, {
+    let progressChart = new Chart(ctx, {
         type: "line",
         data: {
-            labels: labels,
+            labels: [],
             datasets: [{
-                label: "Time (seconds)",
-                data: times,
+                label: "Time Progression",
                 borderColor: "red",
                 backgroundColor: "rgba(255, 0, 0, 0.2)",
-                fill: true,
-                tension: 0.3
+                data: [],
+                fill: false,
+                tension: 0.1
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: "top"
+                }
+            },
             scales: {
-                y: { beginAtZero: false }
+                y: {
+                    beginAtZero: false,
+                    reverse: true // Els temps millors són menors
+                }
             }
         }
     });
-}
 
-function displayImprovements(improvements) {
-    document.getElementById("improvementText").innerHTML = improvements.join("<br>");
-}
+    function updateChart() {
+        results.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-document.getElementById("downloadPDF").addEventListener("click", function () {
-    const { jsPDF } = window.jspdf;
-    let doc = new jsPDF();
-
-    let event = document.getElementById("eventSelect").value;
-    let pool = document.getElementById("poolSelect").value;
-    let gender = document.getElementById("genderSelect").value;
-
-    doc.text("Progress Report", 10, 10);
-    doc.text(`Event: ${event}`, 10, 20);
-    doc.text(`Pool Type: ${pool}`, 10, 30);
-    doc.text(`Gender: ${gender}`, 10, 40);
-
-    let times = [];
-    let dates = [];
-    for (let i = 1; i <= 4; i++) {
-        let timeInput = document.getElementById(`time${i}`).value.trim();
-        let dateInput = document.getElementById(`date${i}`).value.trim();
+        progressChart.data.labels = results.map(r => r.date);
+        progressChart.data.datasets[0].data = results.map(r => r.time);
         
-        if (timeInput !== "" && dateInput !== "") {
-            times.push(timeInput);
-            dates.push(dateInput);
-        }
+        progressChart.update();
     }
 
-    times.forEach((time, index) => {
-        doc.text(`${dates[index]} - Test ${index + 1}: ${time}`, 10, 50 + (index * 10));
-    });
+    function parseTime(timeStr) {
+        let parts = timeStr.split(":");
+        if (parts.length === 2) {
+            let minutes = parseInt(parts[0], 10);
+            let seconds = parseFloat(parts[1]);
+            return minutes * 60 + seconds; // Convertir a segons
+        }
+        return null;
+    }
 
-    doc.text("Improvement Percentages:", 10, 90);
-    let improvements = calculateImprovements(times.map(convertTimeToSeconds));
-    improvements.forEach((imp, index) => {
-        doc.text(imp, 10, 100 + (index * 10));
-    });
+    function formatTime(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        let secs = (seconds % 60).toFixed(2);
+        return `${minutes}:${secs.padStart(5, "0")}`;
+    }
 
-    doc.save("Progress_Report.pdf");
+    addResultButton.addEventListener("click", function () {
+        let date = dateInput.value;
+        let time = parseTime(timeInput.value);
+
+        if (!date || time === null) {
+            alert("Please enter a valid date and time.");
+            return;
+        }
+
+        results.push({ date, time });
+        updateChart();
+    });
 });
