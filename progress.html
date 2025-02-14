@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swimmer Progress</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        canvas {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Swimmer Progress Tracker</h1>
+
+    <div class="container">
+        <label for="swimmerName">Swimmer Name:</label>
+        <input type="text" id="swimmerName" placeholder="Enter swimmer name">
+
+        <label for="testDate">Test Date:</label>
+        <input type="date" id="testDate">
+
+        <label for="distance">Distance Swum (meters):</label>
+        <input type="number" id="distance" placeholder="Enter distance">
+
+        <label for="pace">Avg. Pace per 100m (mm:ss.ms):</label>
+        <input type="text" id="pace" placeholder="mm:ss.ms">
+
+        <button onclick="addData()">Add Test Result</button>
+
+        <h2>Progress Over Time</h2>
+        <canvas id="progressChart"></canvas>
+    </div>
+
+    <script>
+        let testData = [];
+
+        function addData() {
+            const name = document.getElementById("swimmerName").value;
+            const date = document.getElementById("testDate").value;
+            const distance = parseInt(document.getElementById("distance").value);
+            const pace = document.getElementById("pace").value;
+
+            if (!name || !date || isNaN(distance) || !pace) {
+                alert("Please fill all fields correctly.");
+                return;
+            }
+
+            testData.push({ name, date, distance, pace });
+
+            updateChart();
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+
+            const labels = testData.map(test => test.date);
+            const distances = testData.map(test => test.distance);
+
+            if (window.progressChart) {
+                window.progressChart.destroy();
+            }
+
+            window.progressChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Distance Swum (m)',
+                        data: distances,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
