@@ -1,132 +1,105 @@
-document.getElementById("calculateButton").addEventListener("click", function () {
-    const method = document.getElementById("methodSelect").value;
-    let paceData = [];
+document.addEventListener("DOMContentLoaded", function () {
+    const methodSelect = document.getElementById("methodSelect");
+    const input1500m = document.getElementById("input1500m");
+    const input20m = document.getElementById("input20m");
+    const time1500Input = document.getElementById("time1500");
+    const distance20mInput = document.getElementById("distance20m");
+    const calculateButton = document.getElementById("calculateButton");
+    const resultsBody = document.getElementById("resultsBody");
+    const resultsTable = document.getElementById("resultsTable");
+    const downloadButton = document.getElementById("downloadPDF");
 
-    if (method === "1500m") {
-        const time1500 = document.getElementById("time1500").value;
-        if (!time1500.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
-            alert("Please enter a valid 1500m time (mm:ss.ms)");
-            return;
+    // Ocultar/mostrar inputs según el método seleccionado
+    methodSelect.addEventListener("change", function () {
+        if (methodSelect.value === "1500m") {
+            input1500m.style.display = "block";
+            input20m.style.display = "none";
+        } else {
+            input1500m.style.display = "none";
+            input20m.style.display = "block";
         }
-        paceData = calculatePaces1500m(time1500);
-    } else {
-        const distance20m = parseFloat(document.getElementById("distance20m").value);
-        if (isNaN(distance20m) || distance20m <= 0) {
-            alert("Please enter a valid distance in meters.");
-            return;
+    });
+
+    // Función para calcular ritmos
+    function calculatePaces() {
+        let pace100m;
+
+        if (methodSelect.value === "1500m") {
+            const time1500 = time1500Input.value.trim();
+            if (!time1500.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
+                alert("Please enter a valid 1500m time (mm:ss.ms)");
+                return;
+            }
+            pace100m = convertTimeToSeconds(time1500) / 15; // 1500m → 100m pace
+        } else {
+            const distance20m = parseFloat(distance20mInput.value);
+            if (isNaN(distance20m) || distance20m <= 0) {
+                alert("Please enter a valid distance for the 20-minute test");
+                return;
+            }
+            pace100m = (1200 / distance20m) * 100; // 1200 sec in 20 min → 100m pace
         }
-        paceData = calculatePaces20m(distance20m);
+
+        // Calcular zonas de entrenamiento con valores corregidos
+        const trainingPaces = {
+            "AE1 - Aerobic Easy": pace100m * 1.15,
+            "AE2 - Aerobic Moderate": pace100m * 1.05,
+            "EN1 - Threshold 1": pace100m,
+            "EN2 - Threshold 2": pace100m * 0.95,
+            "EN3 - Threshold 3": pace100m * 0.90,
+            "VO2 Max - Maximal Effort": pace100m * 0.85
+        };
+
+        // Limpiar tabla y mostrar resultados
+        resultsBody.innerHTML = "";
+        Object.entries(trainingPaces).forEach(([zone, time]) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${zone}</td><td>${convertSecondsToTime(time)}</td>`;
+            resultsBody.appendChild(row);
+        });
+
+        resultsTable.style.display = "table"; // Mostrar tabla de resultados
+        downloadButton.style.display = "inline-block"; // Mostrar botón de descarga
     }
 
-    displayPaces(paceData);
-    document.getElementById("downloadPDF").style.display = "block";
-});
-
-function calculatePaces1500m(time1500) {
-    const totalSeconds = convertTimeToSeconds(time1500);
-    const pacePer100m = totalSeconds / 15;
-
-    return [
-        { zone: "AE1 - Aerobic Easy", pace: formatPace(pacePer100m * 1.07) },
-        { zone: "AE2 - Aerobic Moderate", pace: formatPace(pacePer100m * 0.92) },
-        { zone: "EN1 - Threshold 1", pace: formatPace(pacePer100m * 0.83) },
-        { zone: "EN2 - Threshold 2", pace: formatPace(pacePer100m * 0.78) },
-        { zone: "EN3 - Threshold 3", pace: formatPace(pacePer100m * 0.73) },
-        { zone: "VO2 Max - Maximal Effort", pace: formatPace(pacePer100m * 0.68) }
-    ];
-}
-
-function calculatePaces20m(distance) {
-    const pacePer100m = (1200 / distance) * 100;
-
-    return [
-        { zone: "AE1 - Aerobic Easy", pace: formatPace(pacePer100m * 1.07) },
-        { zone: "AE2 - Aerobic Moderate", pace: formatPace(pacePer100m * 0.92) },
-        { zone: "EN1 - Threshold 1", pace: formatPace(pacePer100m * 0.83) },
-        { zone: "EN2 - Threshold 2", pace: formatPace(pacePer100m * 0.78) },
-        { zone: "EN3 - Threshold 3", pace: formatPace(pacePer100m * 0.73) },
-        { zone: "VO2 Max - Maximal Effort", pace: formatPace(pacePer100m * 0.68) }
-    ];
-}
-
-function convertTimeToSeconds(time) {
-    const parts = time.split(":");
-    const minutes = parseInt(parts[0], 10);
-    const seconds = parseFloat(parts[1]);
-    return minutes * 60 + seconds;
-}
-
-function formatPace(seconds) {
-    const min = Math.floor(seconds / 60);
-    const sec = (seconds % 60).toFixed(2);
-    return `${min}:${sec.padStart(5, "0")}`;
-}
-
-function displayPaces(paceData) {
-    const tableBody = document.getElementById("resultsBody");
-    tableBody.innerHTML = "";
-    
-    paceData.forEach(item => {
-        let row = `<tr><td>${item.zone}</td><td>${item.pace}</td></tr>`;
-        tableBody.innerHTML += row;
-    });
-}
-
-// 📌 ✅ PDF Mejorado con tabla
-document.getElementById("downloadPDF").addEventListener("click", function () {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-
-    pdf.setFontSize(16);
-    pdf.setTextColor(200, 0, 0);
-    pdf.text("Training Paces Report", 10, 10);
-    
-    pdf.setFontSize(12);
-    pdf.setTextColor(0, 0, 0);
-    
-    // Método utilizado
-    const method = document.getElementById("methodSelect").value;
-    let methodText = method === "1500m" ? "Method: 1500m Freestyle Time" : "Method: 20-Minute Test";
-    pdf.text(methodText, 10, 20);
-
-    // Tiempo o distancia ingresada
-    if (method === "1500m") {
-        pdf.text("1500m Time: " + document.getElementById("time1500").value, 10, 30);
-    } else {
-        pdf.text("Distance Swam in 20 min: " + document.getElementById("distance20m").value + "m", 10, 30);
+    // Convertir tiempo a segundos
+    function convertTimeToSeconds(time) {
+        const [minutes, rest] = time.split(":");
+        const [seconds, milliseconds] = rest.split(".");
+        return parseInt(minutes) * 60 + parseInt(seconds) + parseFloat("0." + milliseconds);
     }
 
-    // 🏊 Tabla de ritmos mejorada
-    let startY = 45;
-    pdf.setFontSize(14);
-    pdf.setTextColor(255, 0, 0);
-    pdf.text("Training Paces", 10, startY);
-    
-    pdf.setFontSize(12);
-    pdf.setTextColor(0, 0, 0);
-    startY += 10;
+    // Convertir segundos a formato mm:ss.ms
+    function convertSecondsToTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = (seconds % 60).toFixed(2);
+        return `${minutes}:${remainingSeconds.padStart(5, "0")}`;
+    }
 
-    const columnWidths = [100, 40];
-    const tableData = [["Zone", "Pace per 100m"]];
+    // Descargar PDF solo con la tabla de resultados
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-    document.querySelectorAll("#resultsTable tbody tr").forEach(row => {
-        const columns = row.querySelectorAll("td");
-        if (columns.length === 2) {
-            tableData.push([columns[0].innerText, columns[1].innerText]);
-        }
-    });
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Training Paces", 10, 10);
 
-    pdf.autoTable({
-        startY: startY,
-        head: [tableData[0]],
-        body: tableData.slice(1),
-        theme: "grid",
-        headStyles: { fillColor: [200, 0, 0], textColor: [255, 255, 255] },
-        columnStyles: {
-            0: { cellWidth: columnWidths[0] },
-            1: { cellWidth: columnWidths[1], halign: "center" }
-        }
-    });
+        const data = [];
+        document.querySelectorAll("#resultsBody tr").forEach(row => {
+            const cells = row.querySelectorAll("td");
+            data.push([cells[0].innerText, cells[1].innerText]);
+        });
 
-    pdf.save("Training_Paces.pdf");
+        doc.autoTable({
+            head: [["Zone", "Pace per 100m"]],
+            body: data,
+            startY: 20
+        });
+
+        doc.save("Training_Paces.pdf");
+    }
+
+    calculateButton.addEventListener("click", calculatePaces);
+    downloadButton.addEventListener("click", downloadPDF);
 });
