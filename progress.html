@@ -1,72 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
     <h1>Progress Tracker</h1>
-
+    
     <div class="container">
         <label for="eventSelect">Select Event:</label>
         <select id="eventSelect">
-            <option value="50m Free">50m Freestyle</option>
-            <option value="100m Free">100m Freestyle</option>
-            <option value="200m Free">200m Freestyle</option>
-            <option value="400m Free">400m Freestyle</option>
-            <option value="800m Free">800m Freestyle</option>
-            <option value="1500m Free">1500m Freestyle</option>
+            <option value="50 Free">50m Freestyle</option>
+            <option value="100 Free">100m Freestyle</option>
+            <option value="200 Free">200m Freestyle</option>
+            <option value="400 Free">400m Freestyle</option>
+            <option value="800 Free">800m Freestyle</option>
+            <option value="1500 Free">1500m Freestyle</option>
+            <option value="50 Back">50m Backstroke</option>
+            <option value="100 Back">100m Backstroke</option>
+            <option value="200 Back">200m Backstroke</option>
+            <option value="50 Breast">50m Breaststroke</option>
+            <option value="100 Breast">100m Breaststroke</option>
+            <option value="200 Breast">200m Breaststroke</option>
+            <option value="50 Fly">50m Butterfly</option>
+            <option value="100 Fly">100m Butterfly</option>
+            <option value="200 Fly">200m Butterfly</option>
+            <option value="200 IM">200m Individual Medley</option>
+            <option value="400 IM">400m Individual Medley</option>
         </select>
 
-        <label for="poolSelect">Pool Type:</label>
-        <select id="poolSelect">
-            <option value="SCM">25m Pool (SCM)</option>
-            <option value="LCM">50m Pool (LCM)</option>
-        </select>
-
-        <label for="genderSelect">Gender:</label>
+        <label for="genderSelect">Select Gender:</label>
         <select id="genderSelect">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
         </select>
 
-        <div id="timesInput">
-            <label>Enter up to 4 times with dates:</label>
-            <div class="time-entry">
-                <input type="date" id="date1">
-                <input type="text" id="time1" placeholder="mm:ss.ms">
-            </div>
-            <div class="time-entry">
-                <input type="date" id="date2">
-                <input type="text" id="time2" placeholder="mm:ss.ms">
-            </div>
-            <div class="time-entry">
-                <input type="date" id="date3">
-                <input type="text" id="time3" placeholder="mm:ss.ms">
-            </div>
-            <div class="time-entry">
-                <input type="date" id="date4">
-                <input type="text" id="time4" placeholder="mm:ss.ms">
-            </div>
-        </div>
+        <label for="poolSelect">Select Pool Type:</label>
+        <select id="poolSelect">
+            <option value="SCM">25m Pool</option>
+            <option value="LCM">50m Pool</option>
+        </select>
 
-        <button id="calculateProgress">Show Progress</button>
-        <button id="downloadPDF" class="download-btn">📥 Download PDF</button>
-
-        <h2>Progress Chart</h2>
+        <h2>Enter Results</h2>
+        <label for="date">Date:</label>
+        <input type="date" id="date">
+        
+        <label for="time">Time (mm:ss.ms):</label>
+        <input type="text" id="time" placeholder="01:02.45">
+        
+        <button id="addResult">Add Time</button>
+        
+        <h2>Progress Graph</h2>
         <canvas id="progressChart"></canvas>
-
-        <h3>Improvement Percentages:</h3>
-        <p id="improvementText"></p>
     </div>
 
     <script src="progress.js"></script>
-
 </body>
 </html>
