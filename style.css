@@ -1,78 +1,116 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
+/* Reset styles */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #141e30, #243b55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
     padding: 20px;
 }
 
-.logo {
-    width: 120px;
-    margin-top: 10px;
-}
-
-h1 {
-    color: #d60000;
-}
-
-.menu-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.menu-item {
-    background: #d60000;
+/* Glassmorphism Card */
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
     color: white;
-    padding: 15px 30px;
-    margin: 10px;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 5px;
 }
 
-.menu-item:hover {
-    background: #a30000;
+/* Title */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.2);
 }
 
-footer {
-    margin-top: 50px;
-    font-size: 14px;
-}
+/* Select Dropdown */
+select,
 input {
-    padding: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
     font-size: 16px;
     margin: 10px 0;
-    width: 200px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
     text-align: center;
 }
 
-button {
-    background-color: #d60000;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
+select {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #a30000;
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
-table {
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    transform: scale(1.05);
+}
+
+/* Results Table */
+#resultsTable {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
+    display: none;
 }
 
-th, td {
-    border: 1px solid black;
+#resultsTable thead th {
+    background: rgba(255, 255, 255, 0.2);
     padding: 10px;
     text-align: center;
+    color: white;
+    font-weight: bold;
 }
 
-th {
-    background-color: #d60000;
+#resultsTable tbody td {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    text-align: center;
     color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Download Button */
+.download-btn {
+    display: none;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.download-btn:hover {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
 }
