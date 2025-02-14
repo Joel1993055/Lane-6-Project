@@ -5,6 +5,23 @@ body {
     padding: 20px;
     background-color: #f4f4f4;
 }
+/* ✅ Estilizar los enlaces del menú como botones */
+.menu-item {
+    display: inline-block;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin: 10px;
+}
+
+.menu-item:hover {
+    background-color: darkred;
+}
 
 .container {
     width: 95%;
