@@ -2,78 +2,58 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
     padding: 20px;
+    background-color: #f4f4f4;
 }
 
-.logo {
-    width: 120px;
-    margin-top: 10px;
+.container {
+    width: 95%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
 }
 
 h1 {
     color: #d60000;
-}
-
-.menu-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.menu-item {
-    background: #d60000;
-    color: white;
-    padding: 15px 30px;
-    margin: 10px;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 5px;
-}
-
-.menu-item:hover {
-    background: #a30000;
-}
-
-footer {
-    margin-top: 50px;
-    font-size: 14px;
-}
-input {
-    padding: 10px;
-    font-size: 16px;
-    margin: 10px 0;
-    width: 200px;
-    text-align: center;
+    font-size: 28px;
 }
 
 button {
-    background-color: #d60000;
+    background-color: red;
     color: white;
     padding: 10px 20px;
-    font-size: 16px;
     border: none;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #a30000;
+    background-color: darkred;
 }
 
-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 1px solid black;
-    padding: 10px;
+/* ✅ Centrar la tabla */
+.table-wrapper {
+    width: 60%;
+    max-width: 600px;
+    margin: 20px auto;
     text-align: center;
 }
 
-th {
-    background-color: #d60000;
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#resultsTable th, #resultsTable td {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+#resultsTable th {
+    background-color: red;
     color: white;
 }
