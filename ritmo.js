@@ -24,7 +24,7 @@ document.getElementById("calculateButton").addEventListener("click", function ()
 
 function calculatePaces1500m(time1500) {
     const totalSeconds = convertTimeToSeconds(time1500);
-    const pacePer100m = totalSeconds / 15; 
+    const pacePer100m = totalSeconds / 15;
 
     return [
         { zone: "AE1 - Aerobic Easy", pace: formatPace(pacePer100m * 1.07) },
@@ -72,14 +72,39 @@ function displayPaces(paceData) {
     });
 }
 
-// PDF GENERATION
+// 📌 ✅ PDF Function (ONLY RELEVANT DATA)
 document.getElementById("downloadPDF").addEventListener("click", function () {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
-    pdf.text("Training Paces", 10, 10);
+    pdf.setFontSize(16);
+    pdf.setTextColor(200, 0, 0);
+    pdf.text("Training Paces Report", 10, 10);
     
-    let startY = 20;
+    pdf.setFontSize(12);
+    pdf.setTextColor(0, 0, 0);
+    
+    // Método utilizado
+    const method = document.getElementById("methodSelect").value;
+    let methodText = method === "1500m" ? "Method: 1500m Freestyle Time" : "Method: 20-Minute Test";
+    pdf.text(methodText, 10, 20);
+
+    // Tiempo o distancia ingresada
+    if (method === "1500m") {
+        pdf.text("1500m Time: " + document.getElementById("time1500").value, 10, 30);
+    } else {
+        pdf.text("Distance Swam in 20 min: " + document.getElementById("distance20m").value + "m", 10, 30);
+    }
+
+    // Tabla de ritmos
+    pdf.setFontSize(14);
+    pdf.setTextColor(255, 0, 0);
+    pdf.text("Training Paces", 10, 45);
+    
+    pdf.setFontSize(12);
+    pdf.setTextColor(0, 0, 0);
+    
+    let startY = 55;
     document.querySelectorAll("#resultsTable tbody tr").forEach(row => {
         const columns = row.querySelectorAll("td");
         if (columns.length === 2) {
