@@ -5,47 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Training Paces</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
     <h1>Training Paces Calculator</h1>
-    
-    <div class="container">
+
+    <div class="container" id="pdf-content">
         <label for="methodSelect">Select Method:</label>
         <select id="methodSelect">
             <option value="1500m">1500m Freestyle Time</option>
             <option value="test20">20-Minute Test</option>
         </select>
 
-        <div id="input1500m" class="input-section">
-            <label for="time1500">Enter 1500m time (mm:ss.ms):</label>
-            <input type="text" id="time1500" placeholder="18:14.24">
-        </div>
+        <label for="timeInput">Enter Time (mm:ss.ms) or Distance (meters):</label>
+        <input type="text" id="timeInput" placeholder="e.g., 18:14.24 or meters">
 
-        <div id="input20m" class="input-section" style="display:none;">
-            <label for="distance20m">Enter Distance (meters):</label>
-            <input type="number" id="distance20m" placeholder="Enter meters">
-        </div>
+        <button onclick="calculatePaces()">Calculate Paces</button>
+        <button onclick="downloadPDF()">Download PDF</button>
 
-        <button id="calculateButton">Calculate Paces</button>
-        <button id="downloadPDF" class="download-btn">📥 Download PDF</button>
-
-        <!-- Envolver la tabla en un div para centrarla -->
-        <div class="table-wrapper">
-            <h2>Training Paces</h2>
-            <table id="resultsTable">
-                <thead>
-                    <tr>
-                        <th>Zone</th>
-                        <th>Pace per 100m</th>
-                    </tr>
-                </thead>
-                <tbody id="resultsBody">
-                </tbody>
-            </table>
-        </div>
+        <h2>Training Paces</h2>
+        <table id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Zone</th>
+                    <th>Pace per 100m</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+        </table>
     </div>
 
-    <script src="ritmo.js"></script>
+    <script>
+        function calculatePaces() {
+            let method = document.getElementById("methodSelect").value;
+            let timeInput = document.getElementById("timeInput").value.trim();
+
+            if (!timeInput) {
+                alert("Enter a valid time or distance");
+                return;
+            }
+
+            let pace100m;
+            if (method === "1500m") {
+                let parts = timeInput.split(":");
+                let minutes = parseInt(parts[0]);
+                let seconds = parseFloat(parts[1]);
+                let totalSeconds = (minutes * 60) + seconds;
+                pace100m = totalSeconds / 15;
+            } else {
+                let distance = parseFloat(timeInput);
+                pace100m = 1200 / distance;
+            }
+
+            let paceData = {
+                "AE1 - Aerobic Easy": pace100m * 1.2,
+                "AE2 - Aerobic Moderate": pace100m * 1.1,
+                "EN1 - Threshold 1": pace100m,
+                "EN2 - Threshold 2": pace100m * 0.95,
+                "EN3 - Threshold 3": pace100m * 0.90,
+                "VO2 Max - Maximal Effort": pace100m * 0.85
+            };
+
+            let resultsBody = document.getElementById("resultsBody");
+            resultsBody.innerHTML = "";
+            for (let zone in paceData) {
+                let row = `<tr><td>${zone}</td><td>${paceData[zone].toFixed(2)}</td></tr>`;
+                resultsBody.innerHTML += row;
+            }
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            html2canvas(document.querySelector("#pdf-content")).then(canvas => {
+                let imgData = canvas.toDataURL("image/png");
+                let pdf = new jsPDF();
+                pdf.addImage(imgData, "PNG", 10, 10, 180, 120);
+                pdf.save("Training_Paces.pdf");
+            });
+        }
+    </script>
+
 </body>
 </html>
