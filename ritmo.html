@@ -28,10 +28,11 @@
         </div>
 
         <button id="calculateButton">Calculate Paces</button>
-        <button id="downloadPDF" class="download-btn" style="display: none;">📥 Download PDF</button>
+        <button id="downloadPDF" class="download-btn">📥 Download PDF</button>
 
-        <h2>Training Paces</h2>
-        <div id="resultsSection">
+        <!-- Envolver la tabla en un div para centrarla -->
+        <div class="table-wrapper">
+            <h2>Training Paces</h2>
             <table id="resultsTable">
                 <thead>
                     <tr>
@@ -39,17 +40,12 @@
                         <th>Pace per 100m</th>
                     </tr>
                 </thead>
-                <tbody id="resultsBody"></tbody>
+                <tbody id="resultsBody">
+                </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="ritmo.js"></script>
-
 </body>
 </html>
-
-
