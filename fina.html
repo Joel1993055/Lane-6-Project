@@ -3,110 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Puntos FINA</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .logo {
-            display: block;
-            margin: 0 auto;
-            width: 150px;
-            height: auto;
-            padding-bottom: 10px;
-        }
-        h1 {
-            color: #d60000;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .container {
-            width: 95%;
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-        }
-        select, input {
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            width: 90%;
-            text-align: center;
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #d60000;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #a50000;
-        }
-        .result {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+    <title>FINA Points Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Calculadora de Puntos FINA</h1>
+    <h1>FINA Points Calculator</h1>
 
     <div class="container">
-        <label for="pool">Selecciona la piscina:</label>
+        <label for="pool">Select Pool Type:</label>
         <select id="pool">
-            <option value="25m">Piscina Corta (25m)</option>
-            <option value="50m">Piscina Larga (50m)</option>
+            <option value="25m">Short Course (25m)</option>
+            <option value="50m">Long Course (50m)</option>
         </select>
 
-        <label for="event">Selecciona una prueba:</label>
+        <label for="event">Select an Event:</label>
         <select id="event">
-            <option value="50free">50m Libre</option>
-            <option value="100free">100m Libre</option>
-            <option value="200free">200m Libre</option>
-            <option value="400free">400m Libre</option>
-            <option value="800free">800m Libre</option>
-            <option value="1500free">1500m Libre</option>
-            <option value="50back">50m Espalda</option>
-            <option value="100back">100m Espalda</option>
-            <option value="200back">200m Espalda</option>
-            <option value="50breast">50m Braza</option>
-            <option value="100breast">100m Braza</option>
-            <option value="200breast">200m Braza</option>
-            <option value="50fly">50m Mariposa</option>
-            <option value="100fly">100m Mariposa</option>
-            <option value="200fly">200m Mariposa</option>
-            <option value="200im">200m Estilos</option>
-            <option value="400im">400m Estilos</option>
+            <option value="50free">50m Freestyle</option>
+            <option value="100free">100m Freestyle</option>
+            <option value="200free">200m Freestyle</option>
+            <option value="400free">400m Freestyle</option>
+            <option value="800free">800m Freestyle</option>
+            <option value="1500free">1500m Freestyle</option>
+            <option value="50back">50m Backstroke</option>
+            <option value="100back">100m Backstroke</option>
+            <option value="200back">200m Backstroke</option>
+            <option value="50breast">50m Breaststroke</option>
+            <option value="100breast">100m Breaststroke</option>
+            <option value="200breast">200m Breaststroke</option>
+            <option value="50fly">50m Butterfly</option>
+            <option value="100fly">100m Butterfly</option>
+            <option value="200fly">200m Butterfly</option>
+            <option value="200im">200m Individual Medley</option>
+            <option value="400im">400m Individual Medley</option>
         </select>
 
-        <label for="gender">Selecciona la categoría:</label>
+        <label for="gender">Select Gender:</label>
         <select id="gender">
-            <option value="men">Masculino</option>
-            <option value="women">Femenino</option>
+            <option value="men">Male</option>
+            <option value="women">Female</option>
         </select>
 
-        <label for="time">Introduce tu tiempo (min:seg.cent):</label>
-        <input type="text" id="time" placeholder="Ej: 1:52.34" />
+        <label for="time">Enter Your Time (mm:ss.ms):</label>
+        <input type="text" id="time" placeholder="e.g., 1:52.34">
 
-        <button onclick="calcularFINA()">Calcular Puntos</button>
+        <button onclick="calculateFINA()">Calculate Points</button>
 
         <p class="result" id="result"></p>
     </div>
 
     <script>
-        // Tiempos base FINA extraídos del PDF
+        // FINA Base Times Data
         const finaBaseTimes = {
             "50free":   { men: { "25m": 20.16, "50m": 20.91 }, women: { "25m": 22.93, "50m": 23.61 } },
             "100free":  { men: { "25m": 44.84, "50m": 46.40 }, women: { "25m": 50.25, "50m": 51.71 } },
@@ -121,26 +68,27 @@
             "400im":    { men: { "25m": 234.81, "50m": 242.50 }, women: { "25m": 258.94, "50m": 264.38 } }
         };
 
-        function calcularFINA() {
+        function calculateFINA() {
             let pool = document.getElementById("pool").value;
             let event = document.getElementById("event").value;
             let gender = document.getElementById("gender").value;
             let timeInput = document.getElementById("time").value.trim();
 
+            // Check time format (mm:ss.ms)
             if (!timeInput.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
-                alert("Formato incorrecto. Usa Min:Seg.Cent (Ej: 1:52.34)");
+                alert("Invalid format. Use mm:ss.ms (e.g., 1:52.34)");
                 return;
             }
 
-            let partes = timeInput.split(":");
-            let minutos = parseInt(partes[0]);
-            let segundos = parseFloat(partes[1]);
+            let parts = timeInput.split(":");
+            let minutes = parseInt(parts[0]);
+            let seconds = parseFloat(parts[1]);
 
-            let tiempoIngresado = minutos * 60 + segundos;
-            let tiempoBase = finaBaseTimes[event][gender][pool];
+            let enteredTime = minutes * 60 + seconds;
+            let baseTime = finaBaseTimes[event][gender][pool];
 
-            let finaPoints = 1000 * Math.pow(tiempoBase / tiempoIngresado, 3);
-            document.getElementById("result").innerText = `Puntos FINA: ${Math.round(finaPoints)}`;
+            let finaPoints = 1000 * Math.pow(baseTime / enteredTime, 3);
+            document.getElementById("result").innerText = `FINA Points: ${Math.round(finaPoints)}`;
         }
     </script>
 
