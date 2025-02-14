@@ -1,143 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Paces - 1500m</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .logo {
-            display: block;
-            margin: 0 auto;
-            width: 150px;
-            height: auto;
-            padding-bottom: 10px;
-        }
-        h1 {
-            color: #d60000;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        .container {
-            width: 95%;
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-        }
-        input {
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            width: 60%;
-            text-align: center;
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #d60000;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #a50000;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #000;
-            text-align: center;
-            font-size: 14px;
-        }
-        th {
-            background-color: #d60000;
-            color: white;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Training Paces</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <img src="https://raw.githubusercontent.com/Joel1993055/Klub-Record2/main/S%C3%98LLER%C3%98D%20SV%C3%98MMEKLUB.png" alt="Klub Logo" class="logo">
-
-    <h1>Training Paces - 1500m</h1>
-
+    <h1>Training Paces Calculator</h1>
+    
     <div class="container">
-        <p>Enter your best 1500m time (format: <b>18:14.24</b>):</p>
-        <input type="text" id="inputTime" placeholder="Min:Sec.Cent" />
-        <button onclick="calculatePaces()">Calculate Paces</button>
+        <label for="methodSelect">Select Method:</label>
+        <select id="methodSelect">
+            <option value="1500m">1500m Freestyle Time</option>
+            <option value="test20">20-Minute Test</option>
+        </select>
 
-        <table id="pacesTable" class="hidden">
+        <div id="input1500m" class="input-section">
+            <label for="time1500">Enter 1500m time (mm:ss.ms):</label>
+            <input type="text" id="time1500" placeholder="18:14.24">
+        </div>
+
+        <div id="input20m" class="input-section" style="display:none;">
+            <label for="distance20m">Enter Distance (meters):</label>
+            <input type="number" id="distance20m" placeholder="Enter meters">
+        </div>
+
+        <button id="calculateButton">Calculate Paces</button>
+
+        <h2>Training Paces</h2>
+        <table id="resultsTable">
             <thead>
                 <tr>
                     <th>Zone</th>
-                    <th>Pace (min/100m)</th>
+                    <th>Pace per 100m</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="resultsBody">
+            </tbody>
         </table>
     </div>
 
-    <script>
-        function calculatePaces() {
-            let time_1500 = document.getElementById("inputTime").value.trim();
-            if (!time_1500.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
-                alert("Incorrect format. Use Min:Sec.Cent (e.g., 18:14.24)");
-                return;
-            }
-
-            let parts = time_1500.split(":");
-            let minutes = parseInt(parts[0]);
-            let seconds = parseFloat(parts[1]);
-
-            let totalTime1500 = minutes * 60 + seconds;
-            let css = totalTime1500 / 15;
-
-            let paces = {
-                "CSS (Threshold)": css,
-                "Z1 - Aerobic Low (110-120%)": css * 1.1,
-                "Z2 - Threshold (100%)": css,
-                "Z3 - VO2max (90-95%)": css * 0.9,
-                "Sprint (80-85%)": css * 0.8
-            };
-
-            let tbody = document.getElementById("pacesTable").querySelector("tbody");
-            tbody.innerHTML = "";
-            
-            for (let zone in paces) {
-                let paceTime = paces[zone];
-                let paceMin = Math.floor(paceTime / 60);
-                let paceSec = String(Math.round(paceTime % 60)).padStart(2, "0");
-
-                let row = document.createElement("tr");
-                row.innerHTML = `<td>${zone}</td><td>${paceMin}:${paceSec}/100m</td>`;
-                tbody.appendChild(row);
-            }
-
-            document.getElementById("pacesTable").classList.remove("hidden");
-        }
-    </script>
-
+    <script src="ritmo.js"></script>
 </body>
 </html>
+
