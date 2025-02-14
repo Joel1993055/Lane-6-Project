@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritmos de Entrenamiento - 1500m</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 150px;
+            height: auto;
+            padding-bottom: 10px;
+        }
+        h1 {
+            color: #d60000;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .container {
+            width: 95%;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 60%;
+            text-align: center;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #d60000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #a50000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #000;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background-color: #d60000;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://raw.githubusercontent.com/Joel1993055/Klub-Record2/main/S%C3%98LLER%C3%98D%20SV%C3%98MMEKLUB.png" alt="Klub Logo" class="logo">
+
+    <h1>Ritmos de Entrenamiento - 1500m</h1>
+
+    <div class="container">
+        <p>Introduce tu mejor tiempo en 1500m (formato: <b>18:14.24</b>):</p>
+        <input type="text" id="inputTime" placeholder="Min:Seg.Cent" />
+        <button onclick="calcularRitmos()">Calcular Ritmos</button>
+
+        <table id="ritmosTable" class="hidden">
+            <thead>
+                <tr>
+                    <th>Zona</th>
+                    <th>Ritmo (min/100m)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function calcularRitmos() {
+            let tiempo_1500 = document.getElementById("inputTime").value.trim();
+            if (!tiempo_1500.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
+                alert("Formato incorrecto. Usa Min:Seg.Cent (Ej: 18:14.24)");
+                return;
+            }
+
+            let partes = tiempo_1500.split(":");
+            let minutos = parseInt(partes[0]);
+            let segundos = parseFloat(partes[1]);
+
+            let tiempoTotal1500 = minutos * 60 + segundos;
+            let css = tiempoTotal1500 / 15;
+
+            let ritmos = {
+                "CSS (Umbral)": css,
+                "Z1 - Aeróbico Bajo (110-120%)": css * 1.1,
+                "Z2 - Umbral (100%)": css,
+                "Z3 - VO2max (90-95%)": css * 0.9,
+                "Sprint (80-85%)": css * 0.8
+            };
+
+            let tbody = document.getElementById("ritmosTable").querySelector("tbody");
+            tbody.innerHTML = "";
+            
+            for (let zona in ritmos) {
+                let tiempo = ritmos[zona];
+                let tiempoMin = Math.floor(tiempo / 60);
+                let tiempoSeg = String(Math.round(tiempo % 60)).padStart(2, "0");
+
+                let row = document.createElement("tr");
+                row.innerHTML = `<td>${zona}</td><td>${tiempoMin}:${tiempoSeg}/100m</td>`;
+                tbody.appendChild(row);
+            }
+
+            document.getElementById("ritmosTable").classList.remove("hidden");
+        }
+    </script>
+
+</body>
+</html>
