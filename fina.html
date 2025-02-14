@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FINA Points Calculator</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
     <h1>FINA Points Calculator</h1>
 
-    <div class="container" id="pdf-content">
+    <div class="container">
         <label for="pool">Select Pool Type:</label>
         <select id="pool">
             <option value="25m">Short Course (25m)</option>
@@ -50,7 +48,6 @@
         <input type="text" id="time" placeholder="e.g., 1:52.34">
 
         <button onclick="calculateFINA()">Calculate Points</button>
-        <button onclick="downloadPDF()">Download PDF</button>
 
         <p class="result" id="result"></p>
     </div>
@@ -77,19 +74,23 @@
             }[event][gender][pool];
 
             let finaPoints = 1000 * Math.pow(baseTime / enteredTime, 3);
-            document.getElementById("result").innerText = `FINA Points: ${Math.round(finaPoints)}`;
-        }
-
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            html2canvas(document.querySelector("#pdf-content")).then(canvas => {
-                let imgData = canvas.toDataURL("image/png");
-                let pdf = new jsPDF();
-                pdf.addImage(imgData, "PNG", 10, 10, 180, 120);
-                pdf.save("FINA_Points_Calculator.pdf");
-            });
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = `<strong>FINA Points:</strong> <span class="highlight">${Math.round(finaPoints)}</span>`;
         }
     </script>
+
+    <style>
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d60000;
+            margin-top: 20px;
+        }
+        .highlight {
+            font-size: 32px;
+            color: black;
+        }
+    </style>
 
 </body>
 </html>
