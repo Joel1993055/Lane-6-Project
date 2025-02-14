@@ -72,7 +72,7 @@ function displayPaces(paceData) {
     });
 }
 
-// 📌 ✅ PDF Function (ONLY RELEVANT DATA)
+// 📌 ✅ PDF Mejorado con tabla
 document.getElementById("downloadPDF").addEventListener("click", function () {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
@@ -96,21 +96,35 @@ document.getElementById("downloadPDF").addEventListener("click", function () {
         pdf.text("Distance Swam in 20 min: " + document.getElementById("distance20m").value + "m", 10, 30);
     }
 
-    // Tabla de ritmos
+    // 🏊 Tabla de ritmos mejorada
+    let startY = 45;
     pdf.setFontSize(14);
     pdf.setTextColor(255, 0, 0);
-    pdf.text("Training Paces", 10, 45);
+    pdf.text("Training Paces", 10, startY);
     
     pdf.setFontSize(12);
     pdf.setTextColor(0, 0, 0);
-    
-    let startY = 55;
+    startY += 10;
+
+    const columnWidths = [100, 40];
+    const tableData = [["Zone", "Pace per 100m"]];
+
     document.querySelectorAll("#resultsTable tbody tr").forEach(row => {
         const columns = row.querySelectorAll("td");
         if (columns.length === 2) {
-            const text = `${columns[0].innerText}: ${columns[1].innerText}`;
-            pdf.text(text, 10, startY);
-            startY += 10;
+            tableData.push([columns[0].innerText, columns[1].innerText]);
+        }
+    });
+
+    pdf.autoTable({
+        startY: startY,
+        head: [tableData[0]],
+        body: tableData.slice(1),
+        theme: "grid",
+        headStyles: { fillColor: [200, 0, 0], textColor: [255, 255, 255] },
+        columnStyles: {
+            0: { cellWidth: columnWidths[0] },
+            1: { cellWidth: columnWidths[1], halign: "center" }
         }
     });
 
