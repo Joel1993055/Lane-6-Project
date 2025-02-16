@@ -16,20 +16,20 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: auto;
+    min-height: 100vh;
     margin: 0;
 }
 
 /* 📦 Contenedor Principal */
 .container {
     background: var(--card-bg);
-    padding: 30px;
+    padding: 20px;
     border-radius: 8px;
     border: 3px solid var(--border-color);
     box-shadow: 6px 6px 0 var(--button-shadow);
     text-align: center;
     width: 95%;
-    max-width: 1300px;  /* Más ancho para ver bien las semanas */
+    max-width: 1300px; /* Se mantiene el ancho para todas las semanas */
     overflow-x: auto;
 }
 
@@ -85,25 +85,33 @@ table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    min-width: 1300px;  /* Asegurar que las 37 semanas se vean bien */
+    min-width: 1300px; /* Se mantiene para que las semanas sean visibles */
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     box-shadow: 4px 4px 0 var(--button-shadow);
 }
 
 th, td {
-    padding: 8px;
+    padding: 5px;
     border: 1px solid var(--border-color);
     text-align: center;
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     min-width: 40px;
-    max-width: 80px;
+    max-width: 60px;
 }
 
 th {
     background: var(--button-shadow);
     color: white;
-    font-size: 16px;
+    font-size: 15px;
+}
+
+/* 📌 Mejorar alineación vertical en celdas */
+td {
+    vertical-align: middle;
 }
 
 /* 🟦 Estilos de las celdas según tipo de semana */
@@ -149,6 +157,13 @@ button:hover {
 button:active {
     transform: translate(3px, 3px);
     box-shadow: 0 0 var(--button-shadow);
+}
+
+/* 🖼️ Imágenes */
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
 }
 
 /* 📱 Responsivo */
