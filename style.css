@@ -8,47 +8,43 @@
     --button-shadow: #333;
 }
 
-
-/* 🔹 Ajuste para los encabezados de la tabla */
+/* 📌 Ajustar encabezados */
 th {
-    height: auto; /* Permitir que los títulos ocupen más espacio */
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    height: auto; /* Permitir más espacio */
+    white-space: nowrap; /* Evitar cortes */
+    overflow: visible; /* Asegurar que se vea el texto */
     text-align: center;
     font-size: 14px;
-    padding: 10px;
-    min-width: 100px; /* Asegura que haya suficiente espacio */
-    max-width: 150px; /* Evita que crezca demasiado */
+    padding: 8px;
+    min-width: 120px; /* Asegura suficiente espacio para 'Week X' */
 }
 
-/* 🔹 Ajustar celdas de la tabla */
+/* 📌 Ajustar celdas de la tabla */
 td {
     white-space: nowrap;
-    overflow: hidden;
+    overflow: visible;
     text-overflow: ellipsis;
-    min-width: 80px; /* Espacio mínimo para evitar cortes */
+    min-width: 80px; /* Espacio mínimo */
     text-align: center;
 }
 
-/* 🔹 Permitir desplazamiento horizontal en pantallas pequeñas */
+/* 📌 Contenedor responsivo */
 .table-container {
-    overflow-x: auto;
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
     max-width: 100%;
 }
 
-/* 🔹 Para dispositivos pequeños */
+/* 📌 Para dispositivos pequeños */
 @media (max-width: 768px) {
     th {
         font-size: 12px;
-        min-width: 80px; /* Reducimos el espacio mínimo */
+        min-width: 100px; /* Ajuste para pantallas pequeñas */
     }
-
+    
     td {
-        min-width: 70px;
+        min-width: 80px;
     }
 }
-
-
-
 
 
 /* 🌍 Estilo General */
