@@ -19,7 +19,7 @@
         <div class="table-container">
             <table id="planTable">
                 <thead>
-                    <tr id="weekRow"><th>Week</th></tr>
+                    <tr id="weekRow"></tr>
                 </thead>
                 <tbody id="planBody">
                     <tr id="structureRow"><td>Structure</td></tr>
@@ -30,36 +30,24 @@
             </table>
         </div>
 
-        <!-- 📌 Tabla de distribución por zonas (Vertical) -->
         <h2>Distribution by Training Zones</h2>
         <div class="table-container">
             <table id="zoneTable">
                 <thead>
                     <tr>
-                        <th>Zone</th>
-                        <th>Week 1</th>
-                        <th>Week 2</th>
-                        <th>Week 3</th>
-                        <th>Week 4</th>
-                        <th>Week 5</th>
-                        <!-- Más semanas dinámicamente -->
+                        <th>Week</th>
+                        <th>Zone 1</th>
+                        <th>Zone 2</th>
+                        <th>Zone 3</th>
+                        <th>Zone 4</th>
+                        <th>Zone 5</th>
                     </tr>
                 </thead>
-                <tbody id="zoneBody">
-                    <tr id="zone1Row"><td>Zone 1</td></tr>
-                    <tr id="zone2Row"><td>Zone 2</td></tr>
-                    <tr id="zone3Row"><td>Zone 3</td></tr>
-                    <tr id="zone4Row"><td>Zone 4</td></tr>
-                    <tr id="zone5Row"><td>Zone 5</td></tr>
-                </tbody>
+                <tbody id="zoneBody"></tbody>
             </table>
         </div>
 
-        <!-- 📊 Gráfico de volumen por zona -->
-        <h2>Volume Distribution by Zone</h2>
-        <canvas id="volumeChart"></canvas>
-
-        <button onclick="exportPlan()">Download Plan</button>
+        <canvas id="zoneChart"></canvas>
     </div>
 
     <script src="plan_editor.js"></script>
