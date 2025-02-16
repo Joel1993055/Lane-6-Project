@@ -18,42 +18,27 @@ body {
     align-items: center;
     height: auto;
     margin: 0;
-    padding: 20px;
 }
 
-/* 📦 Contenedor General para todas las páginas */
+/* 📦 Contenedor Principal */
 .container {
     background: var(--card-bg);
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     border: 3px solid var(--border-color);
     box-shadow: 6px 6px 0 var(--button-shadow);
     text-align: center;
-    width: 90%;
-    max-width: 600px;
-    margin-bottom: 20px;
-}
-
-/* 🔲 Contenedor especial para la planificación (NO afecta otras páginas) */
-.plan-container {
     width: 95%;
-    max-width: 1400px;
+    max-width: 1300px;  /* Más ancho para ver bien las semanas */
     overflow-x: auto;
-    background: var(--card-bg);
-    padding: 10px;
-    border-radius: 8px;
-    border: 3px solid var(--border-color);
-    box-shadow: 6px 6px 0 var(--button-shadow);
-    text-align: center;
-    margin-top: 20px;
 }
 
 /* 🔺 Títulos */
 h1 {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     color: var(--text-color);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 /* 📜 Estilos de los enlaces del menú */
@@ -61,18 +46,18 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .menu-item {
     text-decoration: none;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--text-color);
     background: var(--button-bg);
     border: 2px solid var(--border-color);
-    box-shadow: 3px 3px 0 var(--button-shadow);
-    padding: 10px 18px;
+    box-shadow: 4px 4px 0 var(--button-shadow);
+    padding: 12px 20px;
     border-radius: 5px;
     transition: all 0.3s ease;
 }
@@ -89,47 +74,36 @@ h1 {
 /* 🔲 Tabla de Planificación */
 .table-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Permitir scroll horizontal */
     background: var(--card-bg);
     border-radius: 8px;
     padding: 10px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* 🏊 Tabla con columnas bien organizadas */
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1200px;
-    table-layout: fixed; /* 🔥 Fuerza las columnas a tener un ancho fijo */
+    table-layout: fixed;
+    min-width: 1300px;  /* Asegurar que las 37 semanas se vean bien */
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     box-shadow: 4px 4px 0 var(--button-shadow);
 }
 
-/* 📌 Encabezados */
+th, td {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 14px;
+    min-width: 40px;
+    max-width: 80px;
+}
+
 th {
     background: var(--button-shadow);
     color: white;
-    font-size: 14px;
-    padding: 8px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    word-wrap: break-word;
-}
-
-/* 📌 Celdas */
-td {
-    padding: 6px;
-    font-size: 13px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    word-wrap: break-word;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 40px;
-    max-width: 60px;
+    font-size: 16px;
 }
 
 /* 🟦 Estilos de las celdas según tipo de semana */
@@ -156,11 +130,11 @@ td {
 /* 📩 Botón de acción */
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border-radius: 5px;
     border: 2px solid var(--border-color);
     background: var(--button-bg);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 4px 4px 0 var(--button-shadow);
@@ -180,11 +154,6 @@ button:active {
 /* 📱 Responsivo */
 @media (max-width: 768px) {
     .container {
-        max-width: 100%;
-        padding: 15px;
-    }
-
-    .plan-container {
         max-width: 100%;
         padding: 15px;
     }
