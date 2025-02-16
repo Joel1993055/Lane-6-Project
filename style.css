@@ -18,9 +18,10 @@ body {
     align-items: center;
     height: auto;
     margin: 0;
+    padding: 20px;
 }
 
-/* 📦 Contenedor Principal */
+/* 📦 Contenedor General para todas las páginas */
 .container {
     background: var(--card-bg);
     padding: 20px;
@@ -28,9 +29,23 @@ body {
     border: 3px solid var(--border-color);
     box-shadow: 6px 6px 0 var(--button-shadow);
     text-align: center;
+    width: 90%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+/* 🔲 Contenedor especial para la planificación (NO afecta otras páginas) */
+.plan-container {
     width: 95%;
-    max-width: 1300px;
+    max-width: 1400px;
     overflow-x: auto;
+    background: var(--card-bg);
+    padding: 10px;
+    border-radius: 8px;
+    border: 3px solid var(--border-color);
+    box-shadow: 6px 6px 0 var(--button-shadow);
+    text-align: center;
+    margin-top: 20px;
 }
 
 /* 🔺 Títulos */
@@ -165,6 +180,11 @@ button:active {
 /* 📱 Responsivo */
 @media (max-width: 768px) {
     .container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .plan-container {
         max-width: 100%;
         padding: 15px;
     }
