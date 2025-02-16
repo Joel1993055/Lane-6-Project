@@ -20,10 +20,10 @@ function generateTable() {
     const zoneBody = document.getElementById("zoneBody");
 
     weekRow.innerHTML = "<th>Week</th>";
-    structureRow.innerHTML = "<td>Structure</td>";
-    sessionsRow.innerHTML = "<td>Sessions</td>";
-    kmPerSessionRow.innerHTML = "<td>Km per Session</td>";
-    totalKmRow.innerHTML = "<td>Total Km</td>";
+    structureRow.innerHTML = "<td><strong>Structure</strong></td>";
+    sessionsRow.innerHTML = "<td><strong>Sessions</strong></td>";
+    kmPerSessionRow.innerHTML = "<td><strong>Km per Session</strong></td>";
+    totalKmRow.innerHTML = "<td><strong>Total Km</strong></td>";
     zoneBody.innerHTML = "";
 
     for (let i = 1; i <= weeks; i++) {
@@ -44,7 +44,7 @@ function generateTable() {
         kmPerSessionRow.innerHTML += `<td><input type="number" class="kmPerSession" data-week="${i}" value="4.0" readonly></td>`;
         totalKmRow.innerHTML += `<td><input type="number" class="totalKm" data-week="${i}" value="24"></td>`;
 
-        let row = `<tr><td>Week ${i}</td>`;
+        let row = `<tr><td><strong>Week ${i}</strong></td>`;
         for (let j = 0; j < 5; j++) {
             row += `<td class="zoneData" data-week="${i}" data-zone="${j}">0.0</td>`;
         }
@@ -79,8 +79,7 @@ function updateTable() {
             for (let z = 0; z < 5; z++) {
                 const zoneValue = (totalKm * zonePercentages[structureSelect][z]).toFixed(1);
                 document.querySelector(`.zoneData[data-week="${i}"][data-zone="${z}"]`).innerText = zoneValue;
-                if (!zoneTotals[z][i - 1]) zoneTotals[z][i - 1] = 0;
-                zoneTotals[z][i - 1] += parseFloat(zoneValue);
+                zoneTotals[z][i - 1] = parseFloat(zoneValue);
             }
         }
     }
@@ -99,17 +98,18 @@ function updateChart(zoneTotals) {
         data: {
             labels: Array.from({ length: zoneTotals[0].length }, (_, i) => `Week ${i + 1}`),
             datasets: [
-                { label: "Zone 1", data: zoneTotals[0], backgroundColor: "blue" },
-                { label: "Zone 2", data: zoneTotals[1], backgroundColor: "green" },
-                { label: "Zone 3", data: zoneTotals[2], backgroundColor: "yellow" },
-                { label: "Zone 4", data: zoneTotals[3], backgroundColor: "orange" },
-                { label: "Zone 5", data: zoneTotals[4], backgroundColor: "red" }
+                { label: "Zone 1", data: zoneTotals[0], backgroundColor: "rgba(54, 162, 235, 0.7)" },
+                { label: "Zone 2", data: zoneTotals[1], backgroundColor: "rgba(75, 192, 192, 0.7)" },
+                { label: "Zone 3", data: zoneTotals[2], backgroundColor: "rgba(255, 206, 86, 0.7)" },
+                { label: "Zone 4", data: zoneTotals[3], backgroundColor: "rgba(255, 159, 64, 0.7)" },
+                { label: "Zone 5", data: zoneTotals[4], backgroundColor: "rgba(255, 99, 132, 0.7)" }
             ]
         },
         options: {
             responsive: true,
             scales: {
-                y: { beginAtZero: true }
+                x: { stacked: true },
+                y: { stacked: true }
             }
         }
     });
