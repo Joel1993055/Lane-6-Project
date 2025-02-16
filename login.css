@@ -7,6 +7,22 @@
   --bg-color-alt: #666;
   --main-color: #323232;
 }
+/* Centrar el Login en la pantalla */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 100% de la altura de la pantalla */
+    margin: 0;
+    background-color: #e8e8e8; /* Color de fondo similar a la imagen */
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
 /* switch card */
 .switch {
