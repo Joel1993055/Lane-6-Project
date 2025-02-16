@@ -26,7 +26,13 @@ function generateTable() {
         <tr id="kmPerSessionRow"><td>Km per Session</td></tr>
         <tr id="totalKmRow"><td>Total Km</td></tr>
     `;
-    zoneBody.innerHTML = "";
+    zoneBody.innerHTML = `
+        <tr id="zone1Row"><td>Zone 1</td></tr>
+        <tr id="zone2Row"><td>Zone 2</td></tr>
+        <tr id="zone3Row"><td>Zone 3</td></tr>
+        <tr id="zone4Row"><td>Zone 4</td></tr>
+        <tr id="zone5Row"><td>Zone 5</td></tr>
+    `;
 
     for (let i = 1; i <= numWeeks; i++) {
         // 📌 Encabezado de semanas
@@ -34,7 +40,7 @@ function generateTable() {
         weekCell.textContent = `Week ${i}`;
         tableHeader.appendChild(weekCell);
 
-        // 📌 Selector de estructura (B1, B2, etc.)
+        // 📌 Selector de estructura
         let structureCell = document.createElement("td");
         let structureSelect = document.createElement("select");
         structureSelect.classList.add("chip-select");
@@ -74,24 +80,20 @@ function generateTable() {
         let kmPerSessionCell = document.createElement("td");
         document.getElementById("kmPerSessionRow").appendChild(kmPerSessionCell);
 
-        // 🔹 Fila de distribución por zona
-        let zoneRow = document.createElement("tr");
-        zoneRow.innerHTML = `<td>Week ${i}</td>
-            <td class="zone1"></td>
-            <td class="zone2"></td>
-            <td class="zone3"></td>
-            <td class="zone4"></td>
-            <td class="zone5"></td>`;
-        zoneBody.appendChild(zoneRow);
+        // 🔹 Agregar celdas vacías en la tabla de zonas
+        document.getElementById("zone1Row").appendChild(document.createElement("td"));
+        document.getElementById("zone2Row").appendChild(document.createElement("td"));
+        document.getElementById("zone3Row").appendChild(document.createElement("td"));
+        document.getElementById("zone4Row").appendChild(document.createElement("td"));
+        document.getElementById("zone5Row").appendChild(document.createElement("td"));
     }
 
     updateTable();
 }
 
-// 📌 Actualizar la tabla cuando se modifiquen datos
+// 📌 Actualizar la tabla y calcular zonas
 function updateTable() {
     let tableRows = document.querySelectorAll("#planTable tbody tr");
-    let volumes = [];
 
     tableRows.forEach((row, index) => {
         if (index === 0) return;
@@ -101,39 +103,11 @@ function updateTable() {
         let kmTotal = row.children[3]?.querySelector("input")?.value || 24;
         let kmPerSession = (kmTotal / sessions).toFixed(1);
         row.children[4].textContent = kmPerSession;
-        volumes.push(parseFloat(kmTotal));
 
-        // 🔢 Actualizar valores de las zonas
-        let zoneRow = document.querySelector(`#zoneBody tr:nth-child(${index})`);
         let factors = structureFactors[structure];
 
-        if (zoneRow) {
-            for (let i = 0; i < 5; i++) {
-                zoneRow.children[i + 1].textContent = (kmTotal * factors[i]).toFixed(1);
-            }
-        }
-    });
-
-    updateChart(volumes);
-}
-
-// 📊 Gráfico de volumen por zona
-function updateChart(volumes) {
-    let ctx = document.getElementById("volumeChart").getContext("2d");
-
-    if (window.myChart) {
-        window.myChart.destroy();
-    }
-
-    window.myChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: volumes.map((_, i) => `Week ${i + 1}`),
-            datasets: [{
-                label: "Total Km",
-                data: volumes,
-                backgroundColor: "rgba(0, 123, 255, 0.7)"
-            }]
+        for (let i = 0; i < 5; i++) {
+            document.getElementById(`zone${i + 1}Row`).children[index + 1].textContent = (kmTotal * factors[i]).toFixed(1);
         }
     });
 }
