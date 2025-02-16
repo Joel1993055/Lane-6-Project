@@ -9,6 +9,48 @@
 }
 
 
+/* 🔹 Ajuste para los encabezados de la tabla */
+th {
+    height: auto; /* Permitir que los títulos ocupen más espacio */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    min-width: 100px; /* Asegura que haya suficiente espacio */
+    max-width: 150px; /* Evita que crezca demasiado */
+}
+
+/* 🔹 Ajustar celdas de la tabla */
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 80px; /* Espacio mínimo para evitar cortes */
+    text-align: center;
+}
+
+/* 🔹 Permitir desplazamiento horizontal en pantallas pequeñas */
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* 🔹 Para dispositivos pequeños */
+@media (max-width: 768px) {
+    th {
+        font-size: 12px;
+        min-width: 80px; /* Reducimos el espacio mínimo */
+    }
+
+    td {
+        min-width: 70px;
+    }
+}
+
+
+
+
+
 /* 🌍 Estilo General */
 body {
     font-family: 'Arial', sans-serif;
