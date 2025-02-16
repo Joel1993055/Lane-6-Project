@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Training Plan Editor</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -29,6 +30,10 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- 📊 Gráfico de distribución de volumen por zona -->
+        <h2>Volume Distribution by Zone</h2>
+        <canvas id="volumeChart"></canvas>
 
         <button onclick="exportPlan()">Download Plan</button>
     </div>
