@@ -11,52 +11,45 @@
 
 
 
-/* 📦 Contenedor de los Selectores */
-.select-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* Espaciado entre elementos */
-    padding: 15px;
-    background: var(--card-bg);
-    border-radius: 8px;
-    border: 3px solid var(--border-color);
-    box-shadow: 6px 6px 0 var(--button-shadow);
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-}
-
-/* 🏷️ Estilo para los Labels */
-.select-container label {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--text-color);
-}
-
-/* 🔽 Estilo para los Selectores */
-.select-container select {
+/* Mejorar la visibilidad de los encabezados */
+th {
+    transform: rotate(-45deg);
+    height: 60px;
+    vertical-align: bottom;
+    text-align: left;
+    font-size: 14px;
+    white-space: nowrap;
     padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    background: var(--button-bg);
-    border: 2px solid var(--border-color);
-    box-shadow: 4px 4px 0 var(--button-shadow);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    min-width: 80px; /* Asegura que no se corten */
 }
 
-.select-container select:hover {
-    background: var(--bg-color);
+/* Ajustar celdas de la tabla */
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 70px;
+    text-align: center;
 }
 
-.select-container select:focus {
-    border-color: var(--input-focus);
-    outline: none;
+/* Hacer la tabla responsiva */
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
 }
 
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    th {
+        transform: rotate(0deg);
+        text-align: center;
+        font-size: 12px;
+    }
 
+    td {
+        min-width: 60px;
+    }
+}
 
 
 
