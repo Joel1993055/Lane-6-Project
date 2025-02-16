@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Plan Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Training Plan Editor</h1>
+
+    <div class="container">
+        <label for="weeks">Select Number of Weeks:</label>
+        <input type="number" id="weeks" min="1" max="37" value="37">
+        <button onclick="generateTable()">Generate Table</button>
+        
+        <div class="table-container">
+            <table id="planTable">
+                <thead>
+                    <tr id="weekRow"></tr>
+                </thead>
+                <tbody id="planBody">
+                    <tr id="structureRow"><td>Structure</td></tr>
+                    <tr id="sessionsRow"><td>Sessions</td></tr>
+                    <tr id="kmPerSessionRow"><td>Km per Session</td></tr>
+                    <tr id="totalKmRow"><td>Total Km</td></tr>
+                    <tr id="zoneKmRow"><td>Km by Zone</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button onclick="exportPlan()">Download Plan</button>
+    </div>
+
+    <script src="plan_editor.js"></script>
+
+</body>
+</html>
