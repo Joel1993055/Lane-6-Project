@@ -8,45 +8,6 @@
     --button-shadow: #333;
 }
 
-/* 📌 Ajustar encabezados */
-th {
-    height: auto; /* Permitir más espacio */
-    white-space: nowrap; /* Evitar cortes */
-    overflow: visible; /* Asegurar que se vea el texto */
-    text-align: center;
-    font-size: 14px;
-    padding: 8px;
-    min-width: 120px; /* Asegura suficiente espacio para 'Week X' */
-}
-
-/* 📌 Ajustar celdas de la tabla */
-td {
-    white-space: nowrap;
-    overflow: visible;
-    text-overflow: ellipsis;
-    min-width: 80px; /* Espacio mínimo */
-    text-align: center;
-}
-
-/* 📌 Contenedor responsivo */
-.table-container {
-    overflow-x: auto; /* Permitir desplazamiento horizontal */
-    max-width: 100%;
-}
-
-/* 📌 Para dispositivos pequeños */
-@media (max-width: 768px) {
-    th {
-        font-size: 12px;
-        min-width: 100px; /* Ajuste para pantallas pequeñas */
-    }
-    
-    td {
-        min-width: 80px;
-    }
-}
-
-
 /* 🌍 Estilo General */
 body {
     font-family: 'Arial', sans-serif;
