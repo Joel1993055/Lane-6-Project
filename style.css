@@ -9,54 +9,6 @@
 }
 
 
-
-
-/* Mejorar la visibilidad de los encabezados */
-th {
-    transform: rotate(-45deg);
-    height: 60px;
-    vertical-align: bottom;
-    text-align: left;
-    font-size: 14px;
-    white-space: nowrap;
-    padding: 10px;
-    min-width: 80px; /* Asegura que no se corten */
-}
-
-/* Ajustar celdas de la tabla */
-td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 70px;
-    text-align: center;
-}
-
-/* Hacer la tabla responsiva */
-.table-container {
-    overflow-x: auto;
-    max-width: 100%;
-}
-
-/* Para dispositivos pequeños */
-@media (max-width: 768px) {
-    th {
-        transform: rotate(0deg);
-        text-align: center;
-        font-size: 12px;
-    }
-
-    td {
-        min-width: 60px;
-    }
-}
-
-
-
-
-
-
-
 /* 🌍 Estilo General */
 body {
     font-family: 'Arial', sans-serif;
