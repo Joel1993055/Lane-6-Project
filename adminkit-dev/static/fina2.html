@@ -1,61 +1,145 @@
+Para que la página del **FINA Points Calculator** aparezca con el mismo diseño del **sidebar de AdminKit**, necesitas incrustar el contenido dentro de la estructura de **AdminKit**. 
 
+Aquí está el código corregido que integra el **sidebar de AdminKit** y coloca el contenido del FINA Points Calculator dentro de la sección principal:
+
+---
+
+### **Código Integrado con AdminKit**
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FINA Points Calculator</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- AdminKit CSS -->
+    <link href="adminkit/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <!-- Si tienes estilos propios -->
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Librerías para PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
+
 <body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="index.html">
+                    <span class="align-middle">AdminKit</span>
+                </a>
 
-    <h1>FINA Points Calculator</h1>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-header">Pages</li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="index.html"><i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span></a></li>
+                    <li class="sidebar-item active"><a class="sidebar-link" href="fina.html"><i class="align-middle" data-feather="calculator"></i> <span class="align-middle">FINA Calculator</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="ritmo.html"><i class="align-middle" data-feather="activity"></i> <span class="align-middle">Training Pace</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="progress.html"><i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Progress Tracker</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="plan_editor.html"><i class="align-middle" data-feather="edit"></i> <span class="align-middle">Planning Tool</span></a></li>
+                </ul>
+            </div>
+        </nav>
 
-    <div class="container" id="pdf-content">
-        <label for="pool">Select Pool Type:</label>
-        <select id="pool">
-            <option value="25m">Short Course (25m)</option>
-            <option value="50m">Long Course (50m)</option>
-        </select>
+        <div class="main">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand navbar-light navbar-bg">
+                <a class="sidebar-toggle js-sidebar-toggle">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav navbar-align">
+                        <li class="nav-item dropdown">
+                            <a class="nav-icon dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                <div class="position-relative">
+                                    <i class="align-middle" data-feather="bell"></i>
+                                    <span class="indicator">4</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-        <label for="event">Select an Event:</label>
-        <select id="event">
-            <option value="50free">50m Freestyle</option>
-            <option value="100free">100m Freestyle</option>
-            <option value="200free">200m Freestyle</option>
-            <option value="400free">400m Freestyle</option>
-            <option value="800free">800m Freestyle</option>
-            <option value="1500free">1500m Freestyle</option>
-            <option value="50back">50m Backstroke</option>
-            <option value="100back">100m Backstroke</option>
-            <option value="200back">200m Backstroke</option>
-            <option value="50breast">50m Breaststroke</option>
-            <option value="100breast">100m Breaststroke</option>
-            <option value="200breast">200m Breaststroke</option>
-            <option value="50fly">50m Butterfly</option>
-            <option value="100fly">100m Butterfly</option>
-            <option value="200fly">200m Butterfly</option>
-            <option value="200im">200m Individual Medley</option>
-            <option value="400im">400m Individual Medley</option>
-        </select>
+            <!-- Main Content -->
+            <main class="content">
+                <div class="container-fluid p-4">
+                    <h1 class="h3 mb-3">FINA Points Calculator</h1>
 
-        <label for="gender">Select Gender:</label>
-        <select id="gender">
-            <option value="men">Male</option>
-            <option value="women">Female</option>
-        </select>
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Calculate Your Points</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="container" id="pdf-content">
+                                <label for="pool">Select Pool Type:</label>
+                                <select id="pool">
+                                    <option value="25m">Short Course (25m)</option>
+                                    <option value="50m">Long Course (50m)</option>
+                                </select>
 
-        <label for="time">Enter Your Time (mm:ss.ms):</label>
-        <input type="text" id="time" placeholder="e.g., 1:52.34">
+                                <label for="event">Select an Event:</label>
+                                <select id="event">
+                                    <option value="50free">50m Freestyle</option>
+                                    <option value="100free">100m Freestyle</option>
+                                    <option value="200free">200m Freestyle</option>
+                                    <option value="400free">400m Freestyle</option>
+                                    <option value="800free">800m Freestyle</option>
+                                    <option value="1500free">1500m Freestyle</option>
+                                    <option value="50back">50m Backstroke</option>
+                                    <option value="100back">100m Backstroke</option>
+                                    <option value="200back">200m Backstroke</option>
+                                    <option value="50breast">50m Breaststroke</option>
+                                    <option value="100breast">100m Breaststroke</option>
+                                    <option value="200breast">200m Breaststroke</option>
+                                    <option value="50fly">50m Butterfly</option>
+                                    <option value="100fly">100m Butterfly</option>
+                                    <option value="200fly">200m Butterfly</option>
+                                    <option value="200im">200m Individual Medley</option>
+                                    <option value="400im">400m Individual Medley</option>
+                                </select>
 
-        <button onclick="calculateFINA()">Calculate Points</button>
-        <button onclick="downloadPDF()">Download PDF</button>
+                                <label for="gender">Select Gender:</label>
+                                <select id="gender">
+                                    <option value="men">Male</option>
+                                    <option value="women">Female</option>
+                                </select>
 
-        <p class="result" id="result"></p>
+                                <label for="time">Enter Your Time (mm:ss.ms):</label>
+                                <input type="text" id="time" placeholder="e.g., 1:52.34">
+
+                                <button class="btn btn-primary mt-3" onclick="calculateFINA()">Calculate Points</button>
+                                <button class="btn btn-secondary mt-3" onclick="downloadPDF()">Download PDF</button>
+
+                                <p class="result mt-3" id="result"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                        <div class="col-6 text-start">
+                            <p class="mb-0"><strong>AdminKit</strong> &copy;</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
 
+    <!-- AdminKit JS -->
+    <script src="adminkit/js/app.js"></script>
+
+    <!-- JS de FINA Calculator -->
     <script>
         function calculateFINA() {
             let pool = document.getElementById("pool").value;
@@ -94,3 +178,6 @@
 
 </body>
 </html>
+```
+
+✅ **Este código hace que el FINA Points Calculator tenga el mismo sidebar y diseño de AdminKit.** 🚀
