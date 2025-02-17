@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINA Points Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <h1>FINA Points Calculator</h1>
+
+    <div class="container" id="pdf-content">
+        <label for="pool">Select Pool Type:</label>
+        <select id="pool">
+            <option value="25m">Short Course (25m)</option>
+            <option value="50m">Long Course (50m)</option>
+        </select>
+
+        <label for="event">Select an Event:</label>
+        <select id="event">
+            <option value="50free">50m Freestyle</option>
+            <option value="100free">100m Freestyle</option>
+            <option value="200free">200m Freestyle</option>
+            <option value="400free">400m Freestyle</option>
+            <option value="800free">800m Freestyle</option>
+            <option value="1500free">1500m Freestyle</option>
+            <option value="50back">50m Backstroke</option>
+            <option value="100back">100m Backstroke</option>
+            <option value="200back">200m Backstroke</option>
+            <option value="50breast">50m Breaststroke</option>
+            <option value="100breast">100m Breaststroke</option>
+            <option value="200breast">200m Breaststroke</option>
+            <option value="50fly">50m Butterfly</option>
+            <option value="100fly">100m Butterfly</option>
+            <option value="200fly">200m Butterfly</option>
+            <option value="200im">200m Individual Medley</option>
+            <option value="400im">400m Individual Medley</option>
+        </select>
+
+        <label for="gender">Select Gender:</label>
+        <select id="gender">
+            <option value="men">Male</option>
+            <option value="women">Female</option>
+        </select>
+
+        <label for="time">Enter Your Time (mm:ss.ms):</label>
+        <input type="text" id="time" placeholder="e.g., 1:52.34">
+
+        <button onclick="calculateFINA()">Calculate Points</button>
+        <button onclick="downloadPDF()">Download PDF</button>
+
+        <p class="result" id="result"></p>
+    </div>
+
+    <script>
+        function calculateFINA() {
+            let pool = document.getElementById("pool").value;
+            let event = document.getElementById("event").value;
+            let gender = document.getElementById("gender").value;
+            let timeInput = document.getElementById("time").value.trim();
+
+            if (!timeInput.match(/^\d{1,2}:\d{2}\.\d{2}$/)) {
+                alert("Invalid format. Use mm:ss.ms (e.g., 1:52.34)");
+                return;
+            }
+
+            let parts = timeInput.split(":");
+            let minutes = parseInt(parts[0]);
+            let seconds = parseFloat(parts[1]);
+
+            let enteredTime = minutes * 60 + seconds;
+            let baseTime = {
+                "50free": { men: { "25m": 20.16, "50m": 20.91 }, women: { "25m": 22.93, "50m": 23.61 } }
+            }[event][gender][pool];
+
+            let finaPoints = 1000 * Math.pow(baseTime / enteredTime, 3);
+            document.getElementById("result").innerText = `FINA Points: ${Math.round(finaPoints)}`;
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            html2canvas(document.querySelector("#pdf-content")).then(canvas => {
+                let imgData = canvas.toDataURL("image/png");
+                let pdf = new jsPDF();
+                pdf.addImage(imgData, "PNG", 10, 10, 180, 120);
+                pdf.save("FINA_Points_Calculator.pdf");
+            });
+        }
+    </script>
+
+</body>
+</html>
