@@ -5,26 +5,26 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
 	<meta name="author" content="AdminKit">
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-	<title>Progress Tracker | AdminKit</title>
+	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<!-- CSS de AdminKit -->
+	<title>Progress Tracker | AdminKit Demo</title>
+
 	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-	<!-- Cargar Chart.js -->
+	<!-- ✅ Añadido el script de Chart.js -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 	<div class="wrapper">
-		<!-- Sidebar -->
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="index.html">
@@ -32,7 +32,9 @@
 				</a>
 
 				<ul class="sidebar-nav">
-					<li class="sidebar-header">Pages</li>
+					<li class="sidebar-header">
+						Pages
+					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="index.html">
@@ -41,20 +43,81 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="fina.html">
-							<i class="align-middle" data-feather="calculator"></i> <span class="align-middle">FINA Calculator</span>
+						<a class="sidebar-link" href="pages-profile.html">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
 						</a>
 					</li>
 
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="pages-sign-in.html">
+							<i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Sign In</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="pages-sign-up.html">
+							<i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Sign Up</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="pages-blank.html">
+							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Blank</span>
+						</a>
+					</li>
 					<li class="sidebar-item active">
 						<a class="sidebar-link" href="progress2.html">
 							<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Progress Tracker</span>
 						</a>
 					</li>
 
+					<li class="sidebar-header">
+						Tools & Components
+					</li>
+
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="plan_editor.html">
-							<i class="align-middle" data-feather="edit"></i> <span class="align-middle">Planning Tool</span>
+						<a class="sidebar-link" href="ui-buttons.html">
+							<i class="align-middle" data-feather="square"></i> <span class="align-middle">Buttons</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="ui-forms.html">
+							<i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Forms</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="ui-cards.html">
+							<i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cards</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="ui-typography.html">
+							<i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Typography</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="icons-feather.html">
+							<i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Icons</span>
+						</a>
+					</li>
+
+					<li class="sidebar-header">
+						Plugins & Addons
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="charts-chartjs.html">
+							<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="maps-google.html">
+							<i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
 						</a>
 					</li>
 				</ul>
@@ -62,18 +125,15 @@
 		</nav>
 
 		<div class="main">
-			<!-- Barra de navegación -->
 			<nav class="navbar navbar-expand navbar-light navbar-bg">
 				<a class="sidebar-toggle js-sidebar-toggle">
 					<i class="hamburger align-self-center"></i>
 				</a>
 			</nav>
 
-			<!-- Contenido Principal -->
 			<main class="content">
 				<div class="container-fluid p-0">
 					<h1 class="h3 mb-3">Progress Tracker</h1>
-
 					<div class="card">
 						<div class="card-header">Track Your Progress</div>
 						<div class="card-body">
@@ -81,8 +141,6 @@
 							<select id="eventSelect">
 								<option value="50 Free">50m Freestyle</option>
 								<option value="100 Free">100m Freestyle</option>
-								<option value="200 Free">200m Freestyle</option>
-								<option value="400 Free">400m Freestyle</option>
 							</select>
 
 							<label for="genderSelect">Select Gender:</label>
@@ -113,7 +171,6 @@
 				</div>
 			</main>
 
-			<!-- Footer -->
 			<footer class="footer">
 				<div class="container-fluid">
 					<p class="mb-0">&copy; 2025 AdminKit</p>
@@ -122,10 +179,9 @@
 		</div>
 	</div>
 
-	<!-- AdminKit JS -->
 	<script src="js/app.js"></script>
+	<script src="progress.js"></script>
 
-	<!-- Cargar el script de progreso con la ruta correcta -->
-	<script src="js/progress.js"></script>
 </body>
+
 </html>
