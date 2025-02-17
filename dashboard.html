@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="dashboard.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Entrenadores</h2>
+        <ul>
+            <li><a href="dashboard.html">🏠 Inicio</a></li>
+            <li><a href="nadadores.html">🏊 Nadadores</a></li>
+            <li><a href="planificaciones.html">📅 Planificaciones</a></li>
+            <li><a href="perfil.html">⚙️ Configuración</a></li>
+            <li><a href="login.html">🚪 Cerrar Sesión</a></li>
+        </ul>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+
+        <section class="stats">
+            <div class="card">Nadadores: <span id="totalNadadores">0</span></div>
+            <div class="card">Planificaciones: <span id="totalPlanes">0</span></div>
+            <div class="card">Última Sesión: <span id="ultimaSesion">-</span></div>
+        </section>
+
+        <section class="charts">
+            <h2>Distribución de Entrenamiento</h2>
+            <canvas id="trainingChart"></canvas>
+        </section>
+    </main>
+
+</body>
+</html>
